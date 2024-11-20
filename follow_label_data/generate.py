@@ -25,9 +25,9 @@ n_thread = 32
 n_futures = 32
 total_memory_count = 0 
 max_memory_size = 2*1024*1024
-max_depth = 2
+max_depth = 0
 min_thm_number = 0
-max_thm_number = 20000
+max_thm_number = -1
 zip_offset = 0
 
 upload_repo_id = "Follow-Lang/set.mm.label"
@@ -417,7 +417,7 @@ if __name__ == "__main__":
             print(f"上传失败: {e}")
 
     if max_thm_number < 0:
-        max_thm_number = len(thms)
+        max_thm_number = thms.index("ex-natded5.2") 
     
     run(min_thm_number, max_thm_number, depth=max_depth, batch_size=n_futures)
 
