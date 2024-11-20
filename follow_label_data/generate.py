@@ -129,8 +129,9 @@ def get_thm_train_data(thm, arg_map={}):
 
     actions = thm["actions"]
     operators = thm["operators"]
+
+    memories, _ = get_axiom_train_data(thm, arg_map) # deep = 0 时，当前theorem可能未被调用过，需要补充这部分的样本 
     
-    memories = []
     for (a_targets, a_conditions, a_dvs), (label, args) in zip(actions, operators):
         new_a_targets, new_a_conditions, new_a_dvs = stmt_subs(
             a_targets, a_conditions, a_dvs, arg_map
