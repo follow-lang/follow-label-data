@@ -138,8 +138,9 @@ def get_thm_train_data(thm, arg_map={}):
         )
         state = get_block_train_data(new_a_targets, new_a_conditions, new_a_dvs)
         splitted_label = "<label> " + ' '.join(list(label)) + " </label>"
-        args = " ".join([arg + " </arg>" for arg in args])
-        memory = " ".join([state, splitted_label, args]) 
+        subs_args, _, _ = stmt_subs(args, _, _, arg_map)
+        subs_args = " ".join([arg + " </arg>" for arg in subs_args])
+        memory = " ".join([state, splitted_label, subs_args]) 
         memories.append(tokenizer(memory))
 
     new_operators = []
@@ -308,7 +309,7 @@ def run(start, end, depth, batch_size=128):
         if os.path.exists(train_dir) and os.listdir(train_dir):  # 检查文件夹是否存在且非空
             output_zip = train_dir + ".zip"
             zip_dataset(train_dir, output_zip)
-            upload(output_zip)
+            # upload(output_zip)
             shutil.rmtree(train_dir)
             os.remove(output_zip)
     except Exception as e:
@@ -392,23 +393,27 @@ if __name__ == "__main__":
             if os.path.exists(readme_path):
                 print("开始上传 README.md")
                 with open(readme_path, "rb") as readme_f:
+                    """
                     api.upload_file(
                         path_or_fileobj=readme_f,
                         path_in_repo="README.md",
                         repo_id=repo_id,
                         repo_type="dataset",
                     )
+                    """
                 print("README.md 上传成功")
             else:
                 print("未找到 README.md 文件")
 
             print("开始上传 words.txt")
+            """
             api.upload_file(
                 path_or_fileobj=f,  # 传递文件对象
                 path_in_repo="words.txt",
                 repo_id=repo_id,
                 repo_type="dataset",
             )
+            """
             print("words.txt 上传成功")  # 上传成功提示
         except Exception as e:
             print(f"上传失败: {e}")
