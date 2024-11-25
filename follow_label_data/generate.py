@@ -138,7 +138,7 @@ def get_thm_train_data(thm, arg_map={}):
         )
         state = get_block_train_data(new_a_targets, new_a_conditions, new_a_dvs)
         splitted_label = "<label> " + ' '.join(list(label)) + " </label>"
-        subs_args, _, _ = stmt_subs(args, _, _, arg_map)
+        subs_args = stmt_subs(args, [], [], arg_map)[0]
         subs_args = " ".join([arg + " </arg>" for arg in subs_args])
         memory = " ".join([state, splitted_label, subs_args]) 
         memories.append(tokenizer(memory))
